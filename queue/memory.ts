@@ -1,5 +1,6 @@
 import { QT, IQueue } from '../types';
-import { sleep } from '../utils';
+
+const sleep = () => new Promise(resolve => queueMicrotask(() => resolve(undefined)));
 
 class MemoryQueue implements IQueue {
     head = 0; 

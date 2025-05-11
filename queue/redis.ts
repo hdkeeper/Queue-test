@@ -2,7 +2,6 @@ import { createClient } from 'redis';
 
 import { QT, IQueue } from '../types';
 import { REDIS_URL } from '../config';
-import { sleep } from '../utils';
 
 class RedisQueue implements IQueue {
     queueName = 'random';
@@ -22,13 +21,12 @@ class RedisQueue implements IQueue {
     }
 
     async get(): Promise<QT> {
-        let value = await this.client.rPop(this.queueName);
+        let value: QT = null;
         while (value === null) {
-            await sleep();
-            value = await this.client.rPop(this.queueName);
+            value = Number(await this.client.rPop(this.queueName));
         }
 
-        return Number(value);
+        return value;
     }
 } 
 

@@ -21,12 +21,12 @@ class RedisQueue implements IQueue {
     }
 
     async get(): Promise<QT> {
-        let value: QT = null;
+        let value: string = null;
         while (value === null) {
-            value = Number(await this.client.rPop(this.queueName));
+            value = (await this.client.rPop(this.queueName)) as string;
         }
 
-        return value;
+        return Number(value);
     }
 } 
 
